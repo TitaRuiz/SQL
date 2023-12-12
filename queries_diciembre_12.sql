@@ -1,0 +1,2 @@
+--Agrupar por 
+--Group by 
