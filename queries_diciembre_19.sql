@@ -139,4 +139,32 @@ end
 $$ language 'plpgsql'
 
 --funciones
+create or replace function sin_param()
+returns TEXT
+as $$
+begin
+	return 'Funciona';
+end 
+$$
+language 'plpgsql';
 
+select sin_param();
+
+
+select sin_param()
+
+create or replace function cantidades_existencia()
+returns integer
+as $$
+declare
+	cantidad_existencia integer;
+begin
+    select sum(units_in_stock) into cantidad_existencia
+	from products;
+	return cantidad_existencia;
+end
+$$ language 'plpgsql'
+
+select cantidades_existencia();
+
+--en base al id de producto se devuelve el nombre
