@@ -168,3 +168,57 @@ $$ language 'plpgsql'
 select cantidades_existencia();
 
 --en base al id de producto se devuelve el nombre
+create or replace function nombre_producto(id integer)
+returns varchar(40)
+as $$
+declare
+	nombre varchar(40);
+begin
+	select product_name into nombre from products
+	where product_id = id;
+	return nombre;
+end
+$$ language 'plpgsql'
+
+select nombre_producto(10)
+
+--Obtener el número de ordenes por empleado
+--parametro de entrada -> id de empleado
+--parametro de salida -> numero de ordenes de ordenes - count
+
+create or replace function get_order_count(emp_id integer)
+returns int
+as $$
+declare 
+	quantity int ;
+begin
+	select count(order_id)
+	into quantity
+	from orders
+	where employee_id = emp_id;
+	return quantity;
+end
+$$ language 'plpgsql'
+
+select get_order_count(2)
+--obtener en base de un id de producto obtener la suma de las
+--cantidades vendidas de la tabla de order_details
+create or replace function obtener_cantidad_vendida(id integer)
+returns integer
+as $$
+declare 
+	cantidad int ;
+begin
+	select sum(quantity)
+	into cantidad
+	from order_details
+	where product_id = id;
+	return cantidad;
+end
+$$ language 'plpgsql'
+
+select obtener_cantidad_vendida(1)
+
+
+
+
